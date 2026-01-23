@@ -13,6 +13,13 @@ pipeline {
             }
         }
 
+        stage('Start Payara') {
+            steps {
+                bat 'start java -jar target\\cargo-tracker.war --port 8080'
+                bat 'timeout /t 15 /nobreak'
+            }
+        }
+
         stage('Build & Test with Coverage') {
             steps {
                 bat 'mvnw clean verify'
