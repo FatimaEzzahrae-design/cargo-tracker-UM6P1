@@ -13,12 +13,6 @@ pipeline {
             }
         }
 
-        stage('Start Payara') {
-            steps {
-                bat 'start java -jar target\\cargo-tracker.war --port 8080'
-                bat 'ping 127.0.0.1 -n 15 > nul'
-            }
-        }
 
         stage('Build & Test with Coverage') {
             steps {
