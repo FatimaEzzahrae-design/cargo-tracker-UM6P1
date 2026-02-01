@@ -25,7 +25,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') { // nom du serveur défini dans Jenkins
+                withSonarQubeEnv('SonarQubeLocal') { // nom du serveur défini dans Jenkins
                     bat "mvn sonar:sonar -Dsonar.login=%SONAR_TOKEN%"
                 }
             }
