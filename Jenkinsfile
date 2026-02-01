@@ -19,14 +19,16 @@ pipeline {
 
         stage('Build & Test with Coverage') {
             steps {
-                bat 'mvnw clean verify'
+                // Utiliser le wrapper Maven Windows
+                bat 'mvnw.cmd clean verify'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQubeLocal') { // nom du serveur défini dans Jenkins
-                    bat "mvn sonar:sonar -Dsonar.login=%SONAR_TOKEN%"
+                    // Utiliser le wrapper Maven Windows
+                    bat "mvnw.cmd sonar:sonar -Dsonar.login=%SONAR_TOKEN%"
                 }
             }
         }
