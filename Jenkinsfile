@@ -17,9 +17,16 @@ pipeline {
             }
         }
 
+        stage('Download Payara Micro') {
+    steps {
+        bat 'curl -L -o payara-micro.jar https://repo1.maven.org/maven2/fish/payara/micro/6.2023.4/payara-micro-6.2023.4.jar'
+    }
+}
+
+
         stage('Start Payara Micro') {
     steps {
-        bat 'java -jar payara-micro.jar --deploy target/cargo-tracker.war --port 8080'
+        bat 'start /B java -jar payara-micro.jar --deploy target/cargo-tracker.war --port 8080'
     }
 }
 
