@@ -17,6 +17,13 @@ pipeline {
             }
         }
 
+        stage('Start Payara Micro') {
+    steps {
+        bat 'java -jar payara-micro.jar --deploy target/cargo-tracker.war --port 8080'
+    }
+}
+
+
         stage('Build & Test with Coverage') {
             steps {
                 bat 'mvnw.cmd clean verify'
