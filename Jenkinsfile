@@ -25,13 +25,13 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQubeLocal') { // nom du serveur défini dans Jenkins
-                    // Utiliser le wrapper Maven Windows
-                    bat "mvnw.cmd sonar:sonar -Dsonar.login=%SONAR_TOKEN%"
-                }
-            }
+    steps {
+        withSonarQubeEnv('SonarQubeLocal') {
+            bat "mvnw.cmd sonar:sonar -Dsonar.projectKey=Tp-Jenkins -Dsonar.projectName=\"Tp-Jenkins\" -Dsonar.branch.name=main -Dsonar.login=%SONAR_TOKEN%"
         }
+    }
+}
+
 
         stage('Quality Gate') {
             steps {
