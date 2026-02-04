@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     triggers {
-        githubPush()   
+        githubPush()
     }
 
     environment {
-        SONAR_TOKEN = credentials('sonarqube-token') // ton credential Jenkins
+        SONAR_TOKEN = credentials('sonarqube-token')
     }
 
     stages {
@@ -19,23 +19,27 @@ pipeline {
 
         stage('Build & Test with Coverage') {
             steps {
-                // Utiliser le wrapper Maven Windows
                 bat 'mvnw.cmd clean verify'
             }
         }
 
         stage('SonarQube Analysis') {
-    steps {
-        withSonarQubeEnv('SonarQubeLocal') {
-            bat "mvnw.cmd sonar:sonar -Dsonar.projectKey=Tp-Jenkins -Dsonar.projectName=\"Tp-Jenkins\" -Dsonar.branch.name=main -Dsonar.login=%SONAR_TOKEN%"
+            steps {
+                withSonarQubeEnv('SonarQubeLocal') {
+                    bat """
+                        mvnw.cmd sonar:sonar ^
+                        -Dsonar.projectKey=Tp-Jenkins ^
+                        -Dsonar.projectName=Tp-Jenkins ^
+                        -Dsonar.branch.name=main ^
+                        -Dsonar.login=%SONAR_TOKEN%
+                    """
+                }
+            }
         }
-    }
-}
-
 
         stage('Quality Gate') {
             steps {
-                timeout(time: 5, unit: 'MINUTES') {
+                timeout(time: 10, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
